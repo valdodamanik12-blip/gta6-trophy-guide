@@ -1,7 +1,151 @@
-body { font-family: Arial, sans-serif; margin: 24px; color: #222; }
-header { display: flex; justify-content: space-between; align-items: baseline; }
-.controls { display: flex; gap: 16px; margin: 12px 0; align-items: center; }
-.import input { font-size: 12px; }
-table { border-collapse: collapse; width: 100%; }
-th, td { border-bottom: 1px solid #ddd; padding: 6px 8px; text-align: left; vertical-align: top; white-space: pre-line; }
-th { background: #f2f2f2; }
+/* Leonida Platinum — GTA VI trophy guide & tracker. Own design, no external assets. */
+:root {
+  --paper: #f7f1e6;
+  --card: #fffdf8;
+  --ink: #1c2330;
+  --muted: #5d6572;
+  --line: #e2d9c6;
+  --accent: #e8326e;
+  --accent-soft: #fdeef3;
+  --teal: #0e7c6b;
+  --teal-soft: #e3f2ef;
+  --gold: #c9930a;
+  --radius: 12px;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font: 16px/1.55 -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+.topbar {
+  display: flex; flex-wrap: wrap; gap: 16px; align-items: center; justify-content: space-between;
+  padding: 18px 24px 14px;
+  background: linear-gradient(100deg, #241533 0%, #3a1c4d 55%, #0e3a44 100%);
+  color: #fdf8f0;
+}
+.brand { display: flex; gap: 14px; align-items: center; }
+.brand-mark {
+  width: 52px; height: 52px; border-radius: 14px;
+  background: var(--accent); color: #fff;
+  display: grid; place-items: center;
+  font: 700 20px/1 Georgia, serif; letter-spacing: 1px;
+  box-shadow: 0 0 0 3px rgba(255,255,255,.25);
+}
+.brand h1 { margin: 0; font: 700 30px/1.1 Georgia, "Times New Roman", serif; letter-spacing: .5px; }
+.tagline { margin: 4px 0 0; color: #e8d9e8; font-size: 14px; }
+.progress-wrap { min-width: 280px; max-width: 420px; flex: 1; }
+.progress-numbers { font-weight: 700; font-size: 15px; }
+.progress-bar { height: 12px; border-radius: 99px; background: rgba(255,255,255,.22); margin: 6px 0; overflow: hidden; }
+.progress-fill { height: 100%; width: 0%; border-radius: 99px; background: linear-gradient(90deg, #ff5c8a, #ffb347); transition: width .3s; }
+.grade-counts { font-size: 13px; color: #e8d9e8; }
+.tabs {
+  display: flex; gap: 6px; flex-wrap: wrap;
+  padding: 10px 24px; background: #2b2140; position: sticky; top: 0; z-index: 5;
+}
+.tab {
+  border: 1px solid transparent; background: transparent; color: #d9d2e8;
+  padding: 8px 16px; border-radius: 99px; font: 600 15px/1.2 inherit; cursor: pointer;
+}
+.tab:hover { color: #fff; border-color: rgba(255,255,255,.35); }
+.tab.active { background: var(--accent); color: #fff; }
+main { max-width: 1060px; margin: 0 auto; padding: 20px 24px 40px; }
+.view { display: none; }
+.view.active { display: block; }
+h2 { font: 700 26px/1.2 Georgia, serif; margin: 6px 0 10px; }
+h3 { font-size: 18px; margin: 22px 0 8px; }
+.lede { color: var(--muted); max-width: 78ch; }
+.toolbar {
+  display: flex; flex-wrap: wrap; gap: 10px; align-items: end;
+  background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
+  padding: 12px 14px; margin-bottom: 10px;
+}
+.toolbar input[type="search"] {
+  flex: 1 1 260px; padding: 9px 12px; font: inherit;
+  border: 1px solid var(--line); border-radius: 8px; background: #fff;
+}
+.field { display: grid; gap: 3px; font-size: 12px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .4px; }
+.field select { padding: 8px 10px; font: 600 14px/1.2 inherit; color: var(--ink); border: 1px solid var(--line); border-radius: 8px; background: #fff; }
+.check { display: flex; gap: 8px; align-items: center; font-size: 14px; font-weight: 600; padding-bottom: 8px; cursor: pointer; }
+.check input { width: 18px; height: 18px; accent-color: var(--accent); }
+.actions { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 12px; }
+.actions button {
+  padding: 8px 14px; border-radius: 8px; cursor: pointer; font: 600 14px/1.2 inherit;
+  border: 1px solid var(--line); background: var(--card); color: var(--ink);
+}
+.actions button:hover { border-color: var(--accent); color: var(--accent); }
+.actions button.danger { color: #a33; }
+.save-note { font-size: 13px; color: var(--muted); }
+.result-count { font-size: 14px; color: var(--muted); margin: 4px 0 10px; }
+.trophy-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.trophy {
+  display: grid; grid-template-columns: 30px 1fr auto; gap: 12px; align-items: start;
+  background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
+  padding: 12px 14px;
+}
+.trophy.earned { border-color: var(--teal); background: #f4faf8; }
+.trophy input[type="checkbox"] { width: 22px; height: 22px; margin-top: 2px; accent-color: var(--teal); cursor: pointer; }
+.trophy-name { font-weight: 700; font-size: 16px; }
+.trophy.earned .trophy-name { color: var(--teal); }
+.trophy-desc { color: var(--muted); font-size: 14px; margin-top: 2px; }
+.trophy-meta { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 7px; }
+.pill {
+  font-size: 12px; font-weight: 700; padding: 2px 9px; border-radius: 99px;
+  background: #efe9dc; color: #5d5566; white-space: nowrap;
+}
+.pill.grade-platinum { background: #dbe9f5; color: #2c5f8a; }
+.pill.grade-gold { background: #f7e8b8; color: #7a5c00; }
+.pill.grade-silver { background: #e6eaef; color: #4d5a68; }
+.pill.grade-bronze { background: #f3ddc8; color: #7a4a1e; }
+.pill.missable { background: #fbdfe8; color: #a01e4e; }
+.pill.hidden-flag { background: #e8e2f5; color: #4d3a7a; }
+.pill.target { background: var(--teal-soft); color: var(--teal); }
+.guide-btn {
+  border: 1px solid var(--accent); color: var(--accent); background: var(--accent-soft);
+  padding: 7px 13px; border-radius: 8px; font: 700 13px/1.2 inherit; cursor: pointer; white-space: nowrap;
+}
+.guide-btn:hover { background: var(--accent); color: #fff; }
+.spoiler-hidden .trophy-name, .spoiler-hidden .trophy-desc { color: transparent; text-shadow: 0 0 12px rgba(28,35,48,.55); user-select: none; }
+.empty { color: var(--muted); padding: 24px; text-align: center; background: var(--card); border: 1px dashed var(--line); border-radius: var(--radius); }
+.stage {
+  background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
+  padding: 16px 18px; margin-bottom: 14px;
+}
+.stage h3 { margin-top: 0; }
+.stage h3 .stage-count { float: right; font-size: 14px; color: var(--teal); font-family: inherit; }
+.stage p { color: var(--muted); max-width: 78ch; }
+.stage ul { margin: 8px 0 0; padding-left: 20px; }
+.stage li { margin: 3px 0; }
+.stage li.earned { color: var(--teal); text-decoration: line-through; }
+.stage li .mini-grade { font-size: 12px; font-weight: 700; color: var(--muted); text-transform: uppercase; margin-left: 6px; }
+.plain-list { max-width: 78ch; }
+.plain-list li { margin: 7px 0; }
+.source-line { font-size: 13px; color: var(--muted); border-top: 1px solid var(--line); padding-top: 10px; margin-top: 18px; }
+.detail-overlay {
+  position: fixed; inset: 0; background: rgba(20,16,28,.6);
+  display: grid; place-items: center; padding: 20px; z-index: 20;
+}
+.detail-overlay[hidden] { display: none; }
+.detail {
+  position: relative; width: min(680px, 100%); max-height: 88vh; overflow: auto;
+  background: var(--card); border-radius: 16px; padding: 24px 26px;
+  box-shadow: 0 18px 60px rgba(0,0,0,.35);
+}
+.detail-close {
+  position: absolute; top: 12px; right: 12px; width: 34px; height: 34px; border-radius: 50%;
+  border: 1px solid var(--line); background: #fff; font-size: 15px; cursor: pointer;
+}
+.detail h2 { padding-right: 36px; }
+.detail .trophy-desc { font-size: 15px; font-style: italic; }
+.detail h4 { margin: 18px 0 6px; font-size: 14px; text-transform: uppercase; letter-spacing: .5px; color: var(--muted); }
+.detail p { margin: 6px 0; }
+.detail .sources { font-size: 14px; }
+.detail .sources li { margin: 3px 0; }
+.detail .warn { background: #fbdfe8; border: 1px solid #f3b8cc; border-radius: 8px; padding: 10px 12px; font-size: 14px; }
+footer { text-align: center; color: var(--muted); font-size: 13px; padding: 10px 0 26px; }
+@media (max-width: 640px) {
+  .brand h1 { font-size: 24px; }
+  .trophy { grid-template-columns: 26px 1fr; }
+  .guide-btn { grid-column: 2; justify-self: start; }
+}
