@@ -3,23 +3,111 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>GTA VI trophy checklist</title>
+<title>Leonida Ledger — GTA VI Trophy Guide &amp; Tracker</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<header>
-  <h1>GTA VI trophy checklist</h1>
-  <p id="progress">0 of 55 earned</p>
+<header class="masthead">
+  <div class="masthead-inner">
+    <div>
+      <p class="kicker">Grand Theft Auto VI &middot; PlayStation 5 &middot; works offline</p>
+      <h1>Leonida Ledger</h1>
+      <p class="tagline">Every one of the 55 trophies — the official names, descriptions and grades, a guide to each in our own words with its sources, a roadmap to the platinum, and a checklist that remembers where you are.</p>
+    </div>
+    <div class="progress-card" id="progressCard">
+      <div class="big-count"><span id="earnedCount">0</span><span class="of">/ 55</span></div>
+      <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+      <p class="progress-line" id="progressLine">0 of 55 earned &middot; 0% to the platinum</p>
+      <p class="grade-counts" id="gradeCounts"></p>
+    </div>
+  </div>
+  <nav class="tabs" aria-label="Views">
+    <button type="button" data-tab="checklist" class="tab active" aria-current="page">Checklist</button>
+    <button type="button" data-tab="roadmap" class="tab">Roadmap to Platinum</button>
+    <button type="button" data-tab="missables" class="tab">Missables <span class="tab-badge" id="missableBadge">1</span></button>
+    <button type="button" data-tab="about" class="tab">About &amp; Sources</button>
+  </nav>
 </header>
-<div class="controls">
-  <label>Grade <select id="grade"><option value="all">All</option><option value="platinum">Platinum</option><option value="gold">Gold</option><option value="silver">Silver</option><option value="bronze">Bronze</option></select></label>
-  <button id="export" type="button">Export progress</button>
-  <label class="import">Import progress <input id="import" type="file" accept="application/json"></label>
-</div>
-<table>
-  <thead><tr><th>Earned</th><th>Trophy</th><th>Grade</th><th>How to get it</th></tr></thead>
-  <tbody id="rows"></tbody>
-</table>
+
+<main>
+  <section id="view-checklist" class="view active">
+    <div class="toolbar">
+      <label class="search">Search
+        <input id="search" type="search" placeholder="Name, description or guide text…" autocomplete="off">
+      </label>
+      <div class="chips" id="kindChips" role="group" aria-label="Filter by kind">
+        <button type="button" data-kind="all" class="chip active">All 55</button>
+        <button type="button" data-kind="story" class="chip">Story</button>
+        <button type="button" data-kind="missable" class="chip">Missable</button>
+        <button type="button" data-kind="collectibles" class="chip">Collectibles</button>
+        <button type="button" data-kind="activities" class="chip">Activities</button>
+        <button type="button" data-kind="online" class="chip">Online</button>
+      </div>
+      <label class="grade-filter">Grade
+        <select id="grade">
+          <option value="all">All grades</option>
+          <option value="platinum">Platinum</option>
+          <option value="gold">Gold</option>
+          <option value="silver">Silver</option>
+          <option value="bronze">Bronze</option>
+        </select>
+      </label>
+      <label class="toggle"><input id="spoilers" type="checkbox"> Hide story spoilers</label>
+      <label class="toggle"><input id="hideEarned" type="checkbox"> Hide earned</label>
+      <button id="export" type="button" class="btn">Export progress</button>
+      <label class="btn import-btn">Import progress <input id="import" type="file" accept="application/json,.json"></label>
+    </div>
+    <p class="hint" id="onlineNote" hidden>There are no online trophies in GTA VI — all 55 are single-player and offline, so this filter is empty on purpose.</p>
+    <p class="hint" id="spoilerNote" hidden>Spoiler hiding is on: story trophies stay hidden until you tick them earned.</p>
+    <p class="result-line" id="resultLine"></p>
+    <ul class="trophy-list" id="trophyList"></ul>
+    <p class="empty" id="emptyState" hidden>No trophies match these filters. Clear the search or pick another kind.</p>
+  </section>
+
+  <section id="view-roadmap" class="view">
+    <h2>Roadmap to the platinum</h2>
+    <p class="lede">One playthrough, about 200 hours (PowerPyx's estimate; difficulty 4/10). The order below is built from the official trophy descriptions: story first, the 100% checklist after the credits, then cleanup. Nothing except the Chapter 1 meditation can be missed, and the checklist only opens after the story — so there is no wrong way to play the story itself.</p>
+    <div id="roadmapStages"></div>
+  </section>
+
+  <section id="view-missables" class="view">
+    <h2>Missable trophies</h2>
+    <p class="lede">Only one trophy is flagged as possibly missable by the guides that have played the game. Everything else can be earned after the story in free-roam.</p>
+    <div id="missableList"></div>
+    <h3>How not to lock yourself out</h3>
+    <ul class="advice">
+      <li><strong>Keep cheats off.</strong> Cheats disable trophies and saving (PowerPyx, GTABase).</li>
+      <li><strong>Save by hand.</strong> There is no mission replay and no New Game+, so keep a manual save at the start and end of each chapter — the game gives you 15 manual save slots plus one autosave (PowerPyx).</li>
+      <li><strong>Do the Chapter 1 meditation.</strong> It is the one thing in this guide that can go away for good; see the card above.</li>
+      <li><strong>Don't sweat the rest.</strong> Quest givers who vanish for a while (Kenton, for example) come back later, and optional missions that expire are never the ones a trophy needs — there are far more than the 100 the checklist asks for (PowerPyx).</li>
+    </ul>
+  </section>
+
+  <section id="view-about" class="view">
+    <h2>About this guide</h2>
+    <p>Leonida Ledger is a free, open-source, offline trophy guide and tracker for Grand Theft Auto VI on PlayStation 5. It runs entirely from its own files — no network requests, no account, no ads. Your progress lives in this browser (localStorage) and can be exported to a file and imported back.</p>
+    <h3>The list</h3>
+    <p>55 trophies: 1 platinum, 2 gold, 6 silver, 46 bronze; 28 hidden on PlayStation until earned. Names, descriptions and grades are shown exactly as PlayStation publishes them, as listed by Exophase and PSNProfiles on 18 November 2026. There are no online trophies — every trophy is single-player.</p>
+    <h3>How the guides were written</h3>
+    <p>Each guide is written in our own words for this guide, from the official description plus the launch-era guides that had played the game. Every guide names its sources beside it, so you can check any fact. Where no source had confirmed a trigger yet — one trophy, “Bad Luck, I Guess” — the guide says so plainly instead of guessing. A cited guide beats an uncited one, however detailed; a guessed step helps nobody.</p>
+    <h3>Sources</h3>
+    <ul class="sources">
+      <li><a href="https://www.powerpyx.com/gta-6-grand-theft-auto-vi-trophy-guide-roadmap/" target="_blank" rel="noopener">PowerPyx — GTA 6 Trophy Guide &amp; Roadmap</a> (primary how-to source, played the game)</li>
+      <li><a href="https://www.powerpyx.com/gta-6-100-completion-checklist-guide/" target="_blank" rel="noopener">PowerPyx — GTA 6 100% Completion Checklist</a></li>
+      <li><a href="https://www.exophase.com/game/grand-theft-auto-vi-psn/trophies/" target="_blank" rel="noopener">Exophase — Grand Theft Auto VI trophies</a> (official list)</li>
+      <li><a href="https://psnprofiles.com/trophies/43531-grand-theft-auto-vi" target="_blank" rel="noopener">PSNProfiles — Grand Theft Auto VI trophies</a> (official list, PSN counts)</li>
+      <li><a href="https://www.pushsquare.com/guides/gta-6-trophy-guide-and-roadmap" target="_blank" rel="noopener">Push Square — GTA 6 Trophy Guide &amp; Roadmap</a></li>
+      <li><a href="https://www.gtabase.com/articles/gta-6/gta-6-achievements-trophies-list-ps5-xbox-series" target="_blank" rel="noopener">GTABase — GTA 6 Trophy Guide &amp; Achievements List</a></li>
+      <li><a href="https://insider-gaming.com/complete-gta-6-trophy-list-how-to-get-all-trophies-achievements/" target="_blank" rel="noopener">Insider Gaming — Complete GTA 6 Trophy List</a></li>
+      <li><a href="https://www.gta6database.com/database/activities" target="_blank" rel="noopener">GTA6Database — GTA 6 Activities</a></li>
+    </ul>
+    <p class="fineprint">Unofficial fan guide. Not affiliated with Rockstar Games or Sony Interactive Entertainment. No Rockstar logo or official artwork is used anywhere in this guide; the look is our own. Grand Theft Auto and GTA are trademarks of Take-Two Interactive.</p>
+  </section>
+</main>
+
+<footer>
+  <p>Leonida Ledger &middot; GTA VI trophy guide &amp; tracker &middot; 55 trophies &middot; offline, free, open source.</p>
+</footer>
 <script type="module" src="app.js"></script>
 </body>
 </html>
