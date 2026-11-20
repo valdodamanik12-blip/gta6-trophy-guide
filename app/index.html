@@ -3,23 +3,80 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>GTA VI trophy checklist</title>
+<title>Leonida Platinum — GTA VI Trophy Guide &amp; Tracker</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<header>
-  <h1>GTA VI trophy checklist</h1>
-  <p id="progress">0 of 55 earned</p>
+<header class="topbar">
+  <div class="brand">
+    <h1>Leonida Platinum</h1>
+    <p class="tagline">Grand Theft Auto VI — PS5 trophy guide &amp; tracker. All 55 official trophies: 1 platinum, 2 gold, 6 silver, 46 bronze. Works fully offline.</p>
+  </div>
+  <div class="progress-box">
+    <p id="progress-count" class="progress-count">0 of 55 earned</p>
+    <div class="progress-track"><div id="progress-bar" class="progress-bar"></div></div>
+    <p id="progress-grades" class="progress-grades"></p>
+  </div>
 </header>
-<div class="controls">
-  <label>Grade <select id="grade"><option value="all">All</option><option value="platinum">Platinum</option><option value="gold">Gold</option><option value="silver">Silver</option><option value="bronze">Bronze</option></select></label>
-  <button id="export" type="button">Export progress</button>
-  <label class="import">Import progress <input id="import" type="file" accept="application/json"></label>
-</div>
-<table>
-  <thead><tr><th>Earned</th><th>Trophy</th><th>Grade</th><th>How to get it</th></tr></thead>
-  <tbody id="rows"></tbody>
-</table>
+
+<nav class="views" aria-label="Views">
+  <button type="button" class="view-btn is-active" data-view="checklist">Checklist &amp; guides</button>
+  <button type="button" class="view-btn" data-view="roadmap">Roadmap to platinum</button>
+  <button type="button" class="view-btn" data-view="missables">Missables</button>
+</nav>
+
+<section id="view-checklist" class="view">
+  <div class="controls">
+    <label>Search <input id="search" type="search" placeholder="Name or description…"></label>
+    <label>Kind
+      <select id="kind">
+        <option value="all">All kinds</option>
+        <option value="story">Story</option>
+        <option value="missable">Missable</option>
+        <option value="collectibles">Collectibles</option>
+        <option value="activities">Activities</option>
+        <option value="online">Online</option>
+      </select>
+    </label>
+    <label>Grade
+      <select id="grade">
+        <option value="all">All grades</option>
+        <option value="platinum">Platinum</option>
+        <option value="gold">Gold</option>
+        <option value="silver">Silver</option>
+        <option value="bronze">Bronze</option>
+      </select>
+    </label>
+    <label class="check"><input id="spoiler" type="checkbox"> Hide story spoilers</label>
+    <label class="check"><input id="only-open" type="checkbox"> Only unearned</label>
+    <button id="export" type="button">Export progress</button>
+    <label class="import-btn">Import progress <input id="import" type="file" accept="application/json"></label>
+    <button id="reset" type="button">Reset</button>
+  </div>
+  <p id="online-note" class="note" hidden>The official PS5 list for GTA VI contains no online trophies, so this filter is empty by design.</p>
+  <p id="showing" class="note showing"></p>
+  <div class="layout">
+    <ol id="rows" class="rows"></ol>
+    <aside id="detail" class="detail" aria-live="polite"></aside>
+  </div>
+</section>
+
+<section id="view-roadmap" class="view" hidden>
+  <h2>Roadmap to the platinum</h2>
+  <p class="note">Built from the official trophy descriptions only: chapter and mission names, collectible counts and PSN targets are quoted from the official list (sources: Exophase and PSNProfiles listings of the PS5 trophy list). No step below invents a location the official list does not name.</p>
+  <ol id="roadmap" class="roadmap"></ol>
+</section>
+
+<section id="view-missables" class="view" hidden>
+  <h2>Missable trophies — do not walk past these</h2>
+  <p class="note">Flagged from the official descriptions: a trophy is flagged here when its description names a one-off event, a unique target, a choice, or a moment tied to a partner or a single encounter. Where the method is not yet known publicly, the card says so plainly instead of inventing a walkthrough.</p>
+  <ol id="missable-list" class="rows"></ol>
+</section>
+
+<footer>
+  <p>Progress is saved in this browser (localStorage) and can be exported/imported as a file. Trophy names, descriptions and grades are the official PlayStation list; every guide is original text for this entry and cites its sources on each trophy card. No Rockstar Games logo or artwork is used.</p>
+</footer>
+
 <script type="module" src="app.js"></script>
 </body>
 </html>
